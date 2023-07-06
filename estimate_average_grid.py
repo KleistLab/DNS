@@ -15,17 +15,7 @@ from scipy import optimize as opt
 from scipy.spatial import distance as dist
 from pyexcel_ods import get_data
 import matplotlib.pyplot as plt
-
-def create_grid_from_vecs(vec1, vec2, xsteps, ysteps):
-    """
-    creates a grid from the two-dimensional vectors vec1
-    and vec2 using integer coefficients from -x/ysteps to x/ysteps
-    """
-    n1, n2 = np.meshgrid(np.arange(-xsteps, xsteps+1),
-                         np.arange(-ysteps, ysteps+1))
-    Xgrid = (n1*vec1[0] + n2*vec2[0]).flatten()
-    Ygrid = (n1*vec1[1] + n2*vec2[1]).flatten()
-    return Xgrid, Ygrid
+from helper_functions import create_grid_from_vecs
 
 def measure_distance(vecs, Xdat, Ydat):
     """
