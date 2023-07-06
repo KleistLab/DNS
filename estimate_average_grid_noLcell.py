@@ -56,7 +56,7 @@ def measure_distance(vecs, Xdata, Ydata):
             dists = np.append(dists, D.min() / (xd**2 + yd**2))
     return np.sum(dists) + 50*error
 
-# loop across time points
+# load data from excel sheet
 PATH = "/home/eric/axon_guidance/experimental_data/XYpositionsSmo-R4_Heels_Egemen.xlsx"
 data = np.array(pd.read_excel(PATH)[1:], dtype='float')
 time, xpos, ypos = data[:, 0], data[:, 1::2], data[:, 2::2]
@@ -73,6 +73,7 @@ for tt in range(len(time)):
     xpos[tt, 25:] -= (xpos[tt, 25:])[D2.argmin()]
     ypos[tt, 25:] -= (ypos[tt, 25:])[D2.argmin()]
 
+# for each time point, the two grid vectors are fitted
 vecs_opt1_dat1 = np.zeros((len(time), 2))
 vecs_opt2_dat1 = np.zeros((len(time), 2))
 vecs_opt1_dat2 = np.zeros((len(time), 2))
@@ -81,11 +82,11 @@ for hh in range(len(time)):
     print('Data set ' + str(hh+1))
     # loop across receptors, for a given time point
     L = np.sqrt(2) * 100
-    res1 = opt.minimize(measure_distance, [L/np.sqrt(2), L/np.sqrt(2), L, 0], args=(xpos[hh, :25], ypos[hh, :25])) # initial condition
+    res1 = opt.minimize(measure_distance, [L/np.sqrt(2), L/np.sqrt(2), L, 0], args=(xpos[hh, :25], ypos[hh, :25]))
     vecs_opt1_dat1[hh, :] = res1.x[:2]
     vecs_opt2_dat1[hh, :] = res1.x[2:]
 
-    res2 = opt.minimize(measure_distance, [L/np.sqrt(2), L/np.sqrt(2), L, 0], args=(xpos[hh, 25:], ypos[hh, 25:])) # initial condition
+    res2 = opt.minimize(measure_distance, [L/np.sqrt(2), L/np.sqrt(2), L, 0], args=(xpos[hh, 25:], ypos[hh, 25:]))
     vecs_opt1_dat2[hh, :] = res2.x[:2]
     vecs_opt2_dat2[hh, :] = res2.x[2:]
 
@@ -103,6 +104,7 @@ for hh in range(len(time)):
     plt.title(int(np.sqrt(np.dot(vecs_opt1_dat2[hh], vecs_opt1_dat2[hh]))))
     '''
 
+# average across the two brains
 final_v1 = (vecs_opt1_dat1 + vecs_opt1_dat2)/2
 final_v2 = (vecs_opt2_dat1 + vecs_opt2_dat2)/2
 
@@ -117,6 +119,7 @@ plt.scatter(*np.zeros(2))
 plt.figure()
 plt.scatter(xpos, ypos)
 '''
+# save the vectors in a file
 opt_vec = np.hstack((final_v1, final_v2))
 # it seems that the changes of v1 and v2 over time are not systematic,
 # so we output the average vectors for all time points
