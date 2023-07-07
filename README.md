@@ -12,6 +12,9 @@ Files:
 - create_grid_for_all_timesteps_noLcell.py is similar to create_grid_for_all_timesteps.py but uses the data of the L-cell ablation experiment
 - estimate_average_grid_noLcell.py is similar to create_grid_noLcell.py but uses the data of the L-cell ablation experiment
 - helper_functions.py contains a bunch of general functions being reused in different files
+- HEELLOCS_AVG.json contains the experimental WT heel locations
+- frontcenters_automatic_all.json contains the experimental WT front locations
+- XYpositionsSmo-R4_Heels_Egemen.xlsx contains the experimental bundle locations for the L-cell ablation experiment
 
 The files *_noLcell.py could have been incorporated into their corresponding wild-type counterparts but we felt that these had already very many branches.
 We think that merging these files would have made the code much less readable.
