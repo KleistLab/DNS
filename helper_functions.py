@@ -143,6 +143,38 @@ def create_starting_grid2(centerlocx, centerlocy, hour, val_inter=None, fading=0
     recep_x = xrec_rot[:, None] + centerlocx[None, :]
     return recep_x, recep_y, centerlocx, centerlocy
 
+def create_starting_grid_noLcell(center_loc_x, center_loc_y):
+    """
+    create grid of bundles in the noLcell situation, elliptical bundles
+    at 22 hAPF, without equator
+    """
+    alpha = -np.pi/3
+    ell_a = 2.58 * 24 / 2
+    ell_b = 2.96 * 24 / 2
+
+    yrec = np.array([ell_a*np.cos(-(alpha + (n - 1)*(np.pi - 2*alpha)/5) + np.pi) for n in np.arange(1, 7)])
+    xrec = np.array([ell_b*np.sin(-(alpha + (n - 1)*(np.pi - 2*alpha)/5) + np.pi) for n in np.arange(1, 7)])
+
+    recep_y = yrec[:, None] + center_loc_y[None, :]
+    recep_x = xrec[:, None] + center_loc_x[None, :]
+    return recep_x, recep_y, center_loc_x, center_loc_y
+
+def calc_closest_point_on_ellipse(a_ell, b_ell, point):
+    """
+    for a given point, calculate the closest point on the periphery
+    of an ellipse with the two axes a_ell and b_ell
+    - assume that the center of the ellipse is at (0, 0)
+    """
+    xr = np.sqrt(a_ell**2 * b_ell**2 / (b_ell**2 + a_ell**2*(point[:, :, 1]/point[:, :, 0])**2))
+    yr = point[:, :, 1]/point[:, :, 0] * xr
+    return np.sign(point[:, :, 0])*xr, np.sign(point[:, :, 1])*np.abs(yr)
+
+def tanh_cust(x, x_half, sl):
+    '''
+    customized hyperbolic tangent
+    '''
+    return 1/2 * (1 + np.tanh(2*sl*(x - x_half)))
+
 def index_func(x):
     """
     little helper function for create_grid_for_all_timesteps.py
