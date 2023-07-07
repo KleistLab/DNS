@@ -27,3 +27,6 @@ Usage:
 
 Use the same order for the *_noLcell.py files.
 six_receptors_one_movie.py also requires the steps (1) and (2) first.
+
+Required modules:
+numpy, scipy, matplotlib, numexpr, joblib, json, base64, time, descartes, shapely
