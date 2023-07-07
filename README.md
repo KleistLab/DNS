@@ -29,7 +29,7 @@ Use the same order for the *_noLcell.py files.
 six_receptors_one_movie.py also requires the steps (1) and (2) first.
 
 Required modules:
-numpy, scipy, matplotlib, numexpr, joblib, json, base64, time, descartes, shapely
+numpy, scipy, pandas, matplotlib, numexpr, joblib, json, base64, time, descartes, shapely
 
 The randomwalk_growthcone_density* files use mencoder to combine the created images into a movie.
 
