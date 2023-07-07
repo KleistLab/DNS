@@ -12,23 +12,7 @@ from scipy.signal import fftconvolve
 from scipy.interpolate import splrep, splev
 from scipy.ndimage.filters import uniform_filter1d
 from helper_functions import rotate_coord, load_grid_heels_fronts,\
-potential_parabola
-
-def create_starting_grid_noLcell(center_loc_x, center_loc_y):
-    """
-    create grid of bundles in the noLcell situation, elliptical bundles
-    at 22 hAPF, without equator
-    """
-    alpha = -np.pi/3
-    ell_a = 2.58 * CONVFAC / 2
-    ell_b = 2.96 * CONVFAC / 2
-
-    yrec = np.array([ell_a*np.cos(-(alpha + (n - 1)*(np.pi - 2*alpha)/5) + np.pi) for n in np.arange(1, 7)])
-    xrec = np.array([ell_b*np.sin(-(alpha + (n - 1)*(np.pi - 2*alpha)/5) + np.pi) for n in np.arange(1, 7)])
-
-    recep_y = yrec[:, None] + center_loc_y[None, :]
-    recep_x = xrec[:, None] + center_loc_x[None, :]
-    return recep_x, recep_y, center_loc_x, center_loc_y
+potential_parabola, create_starting_grid_noLcell
 
 hours = np.array([26, 30, 35, 40])
 CONVFAC = 45.8 # conversion factor, pixels/micrometer
@@ -46,7 +30,6 @@ rm_fronts = np.array([[3.39768913, 4.6265753 , 4.61201485, 4.17743499],
                       [3.01362226, 3.0008909 , 3.62965469, 3.61263049],
                       [3.4521001 , 3.91277842, 4.38606931, 4.57895422],
                       [3.99243196, 4.05693107, 4.49508072, 4.3103579 ]])
-
 
 Nx, Ny = 1024, 512
 
@@ -93,6 +76,7 @@ for i in range(6):
     FRO_INT_Y[i, :] = splev(newtime, spl1)
 
 # linearly extrapolate to past and future simulation time points
+# beyond the experimentally measured time points
 rm_heel_int[:, newtime < 26] = np.linspace(rm_heels[:, 0] - (rm_heels[:, 1] - rm_heels[:, 0]), rm_heel_int[:, newtime < 26][:, -1], 18).T
 rm_front_int[:, newtime < 26] = np.linspace(rm_fronts[:, 0] - (rm_fronts[:, 1] - rm_fronts[:, 0]), rm_front_int[:, newtime < 26][:, -1], 18).T
 rm_heel_int[:, newtime > 40] = np.linspace(rm_heel_int[:, newtime > 40][:, 0], rm_heels[:, -1] - (rm_heels[:, -1] - rm_heels[:, -2]), 15).T
