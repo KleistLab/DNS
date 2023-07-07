@@ -21,24 +21,9 @@ from shapely.geometry import Point
 import descartes
 from helper_functions import \
 load_grid_heels_fronts, remove_ticks_and_box, create_heatmap, rotate_coord,\
-    create_starting_grid2, create_movie_from_png
+    create_starting_grid2, calc_closest_point_on_ellipse, create_movie_from_png
 
 start = time.time()
-def calc_closest_point_on_ellipse(a_ell, b_ell, point):
-    """
-    for a given point, calculate the closest point on the periphery
-    of an ellipse with the two axes a_ell and b_ell
-    - assume that the center of the ellipse is at (0, 0)
-    """
-    xr = np.sqrt(a_ell**2 * b_ell**2 / (b_ell**2 + a_ell**2*(point[:, :, 1]/point[:, :, 0])**2))
-    yr = point[:, :, 1]/point[:, :, 0] * xr
-    return np.sign(point[:, :, 0])*xr, np.sign(point[:, :, 1])*np.abs(yr)
-
-def tanh_cust(x, x_half, sl):
-    '''
-    customized hyperbolic tangent
-    '''
-    return 1/2 * (1 + np.tanh(2*sl*(x - x_half)))
 
 def generate_indmat(xind, yind, fr_x, fr_y, r1, frontang, REC_X_INTER, REC_Y_INTER):
     """
