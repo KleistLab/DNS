@@ -30,3 +30,5 @@ six_receptors_one_movie.py also requires the steps (1) and (2) first.
 
 Required modules:
 numpy, scipy, matplotlib, numexpr, joblib, json, base64, time, descartes, shapely
+
+If you would like to run the code, make sure to adapt the paths in the code for writing and storing files. 
