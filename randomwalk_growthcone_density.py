@@ -193,10 +193,10 @@ def run_gc(c_st, sl_st, startang, A_magnet, circ_width, radius, c_magnet = 35, s
     # outside_fil_all = []
     xind, yind = np.meshgrid(np.arange(2*Nx-1), np.arange(2*Ny-1))
     pval_inter = np.zeros((nr_of_rec, 4))
-
     while irep < nrep:
         TIME = np.array([])
-        meanvec_old = np.ones(nr_of_rec) * sp * 2/3*radii[receptor-1]*np.sin(np.pi/180 * circ_width)/(np.pi/180 * circ_width) * np.exp(1j*startang) #* radii[receptor-1] * np.exp(1j*startang) * sp1
+        # initialize the growth vector with the theoretical expectation for random uniformly placed points in a circular segment of given radius and angular width
+        meanvec_old = np.ones(nr_of_rec) * sp * 2/3*radii[receptor-1]*np.sin(np.pi/180 * circ_width)/(np.pi/180 * circ_width) * np.exp(1j*startang)
         for hh, hour in enumerate(hours[1:]):
             hh += 1
             if hour == 45:
