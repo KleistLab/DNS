@@ -73,16 +73,11 @@ for hh in range(4):
 
         # load heel locations
         if rec == 3:
-            PATH_TAIL = '/home/eric/axon_guidance/experimental_data/'\
-                'Sample_Growth_Cone_Pictures/20210402_data_set/R3/'\
-                    'Segmented_R3/Semi_automatic_aligned_R3_pictures/'\
-                    +str(hour)+'hAPF/'
-            FULL_PATHS = np.sort(glob.glob(PATH_TAIL + '*.png'))
+            nr_of_images = 30
+        elif hh == 0 and rec == 5:
+            nr_of_images = 6
         else:
-            PATH_TAIL = '/home/eric/axon_guidance/experimental_data/'\
-                'Sample_Growth_Cone_Pictures/20210402_data_set/R'\
-                    +str(rec)+'/'+str(hour)+'hAPF/'
-            FULL_PATHS = np.sort(glob.glob(PATH_TAIL + '*Front*.tif'))
+            nr_of_images = 12
         data2 = get_data("filopodia_manual_front_R"+str(rec)+".ods")
 
         HEELLOCS = np.array([])
@@ -90,7 +85,7 @@ for hh in range(4):
         all_tips_front_manual[str(hour)+'hAPF'] = data2[str(hour)+'hAPF'][1:]
         a = [list(g) for k, g in groupby(all_tips_front_manual[str(hour)+'hAPF'],
                                          lambda x: str(x) != '[]') if k]
-        for i, impath in enumerate(FULL_PATHS):
+        for i in range(nr_of_images):
             # load manually detected filopodial tips
             HEELLOC = np.array([a[i][0][0], a[i][0][1]])
             HEELLOCS = np.append(HEELLOCS, HEELLOC)
