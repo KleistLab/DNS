@@ -663,7 +663,7 @@ if __name__ == "__main__":
     Nx, Ny = 1024, 512 # size of the image of the density landscape
 
     # initital angles, from experimental data
-    startangs_all = np.pi/180 * np.array([-140.6786, -64.3245, -17.25796667, 13.26706/2, 63.2865, 135.0751667])
+    startangs_all = np.pi/180 * np.array([-140.6786, -64.3245, -17.25796667, 5.312072, 63.2865, 135.0751667])
     # experimental standard deviations of the initial angles
     startangs_std = np.array([8.758102091, 10.27462811, 5.683716097, 7.21548511, 14.56159809, 5.942082166])
 
